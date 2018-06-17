@@ -3,14 +3,14 @@ from django.contrib.auth.decorators import login_required
 from .models import Photo, Comment
 from .forms import PostImageForm,CommentForm
 from django.contrib import messages
-from django.db.models import Q
+
 
 @login_required(login_url='/account/register/')
 def dashboard(request):
 
     query = request.GET.get('q', None)
     if query is not None:
-        photos = Photo.objects.filter(Q(title__contains=query.lower())|Q(description__contains=query.lower()))
+        photos = Photo.search(query)
 
     else:
         photos = Photo.objects.all()
@@ -39,18 +39,3 @@ def add_photo(request):
         image_form = PostImageForm()
 
     return render(request, 'add_image.html', {'image_form': image_form})
-
-# @login_required
-# def comment(request):
-#     print(request.POST)
-#     if request.method == 'POST':
-#         comment_form = CommentForm(request.POST)
-       
-#         if comment_form.is_valid():
-#             pass
-#             # instance = Comment(name=request.user,body=request.POST['body'],photo=id)
-#             # instance.save()
-#     else:
-#         comment_form = CommentForm()
-#     return render(request, 'dashboard.html',{'comment_form': comment_form} )
-
