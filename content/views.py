@@ -5,13 +5,8 @@ from .forms import PostImageForm,CommentForm
 from django.contrib import messages
 from django.db.models import Q
 
-
-
 @login_required(login_url='/account/register/')
 def dashboard(request):
-    
-
-    
 
     query = request.GET.get('q', None)
     if query is not None:
@@ -19,9 +14,6 @@ def dashboard(request):
 
     else:
         photos = Photo.objects.all()
-    
-    # id = int(request.POST.get('id',None))
-    # print(dir(request.user))
     if request.method == 'POST':
         comment_form = CommentForm(data=request.POST,instance=request.user)
         if comment_form.is_valid():

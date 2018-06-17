@@ -17,7 +17,6 @@
         </span>
         <div class="card-body">
         <img class="card-img-top" src="{{ photo.image.url }}" data-toggle="modal" data-target="#{{photo.id}}" alt="Card image cap">
-          <h5 class="card-title">Card title</h5>
           <p class="card-text">likes {{photo.users_like.count}}</p>
           {% if photo.comments%}
           <p class="card-text">comments {{photo.comments.count}}</p>
