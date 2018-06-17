@@ -21,6 +21,13 @@ class Photo(models.Model):
             self.slug = slugify(self.title)
             super(Photo, self).save(*args, **kwargs)
 
+    @classmethod
+    def search(cls,query):
+        Q = models.Q
+        photos = Photo.objects.filter(Q(title__contains=query.lower())|Q(description__contains=query.lower()))
+        return photos
+
+
 class Comment(models.Model):
     photo = models.ForeignKey(Photo, related_name='comments')
     name = models.ForeignKey(User,related_name='user_comments')
