@@ -14,7 +14,7 @@
 </head>
 <body>
     <div id="header">
-      <span class="logo">Instagram</span>
+      <span class="logo"><a href="{% url 'dashboard' %}">Instagram</a></span>
       {% if request.user.is_authenticated %}
       <ul class="menu">
           <li {% if section == 'images' %} class='selected' {% endif %} >
