@@ -4,6 +4,7 @@ from django.conf import settings
 
 class Profile(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL)
+    bio = models.TextField(default="empty bio")
     photo = models.ImageField(upload_to='users/%Y/%m/%d',blank=True,default='default.jpg')
 
     def __str__(self):
