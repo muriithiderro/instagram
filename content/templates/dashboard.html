@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+{% if photos %}
+    {% for photo in photos %}
+      <div class="card" style="width: 30rem; text-align:center;  margin: 0 auto; 
+      float: none;
+      margin-bottom: 10px;">
+       
+        <span>
+        
+        <img class="img-fluid" style="width: 40px; float:left" src="{{ user.profile.photo.url }}" alt="Card image cap">
+        
+        {{photo.user}}
+        </span>
+        <div class="card-body">
+        <img class="card-img-top" src="{{ photo.image.url }}" data-toggle="modal" data-target="#{{photo.id}}" alt="Card image cap">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">likes {{photo.users_like.count}}</p>
+          {% if photo.comments%}
+          <p class="card-text">comments {{photo.comments.count}}</p>
+          {% else %}
+          <p>No comments yet</p>
+          {% endif %}
+           <form action="." method="post">
+             {{ comment_form.as_p }}
+             <input type="hidden" value="{{ photo.id }}" name="id"/>
+             <input type="hidden" value="{{ photo }}" name="photo"/>
+             {% csrf_token %}
+              <p><input type="submit" value="Add"></p>
+            </form> 
+        </div>
+      </div>
+
+           <!-- The Modal -->
+           <div class="modal fade" id="{{photo.id}}">
+              <div class="modal-dialog modal-dialog-centered"style="max-width: 100px!important;" role="document">
+                <div class="modal-content">
+                    <div class="card" style="width:400px">
+                        <img class="card-img-top img-thumbnail" src="{{ photo.image.url}}" alt="Card image" style="width:100%">
+                        <div class="card-body">
+                          {%if photo.description %}
+                          <small>{{photo.description}}</small>
+                          {% else%}
+                          <small>photo has no description</small>
+                          {% endif %}
+                          <small>posted by {{photo.user}} on {{photo.created}}</small>
+                          <p style="font-family: 'Lato', serif" class="card-text"> </p>
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                      </div>
+                </div>
+              </div>
+            </div>
+
+      {% endfor %}
+{% else %}
+<h2> post like {{ query }} was not found</h2>
+{% endif %}
+
+{% endblock %}
