@@ -1,38 +1,94 @@
 {% load staticfiles %}
+{% load bootstrap4 %}
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>{% block title %}{% endblock %}</title>
-<link href="{% static "base.css" %}" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %}</title>
+    {% bootstrap_css %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+   
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+   
+    <link href="{% static 'css/styles.css' %}" rel="stylesheet">
 </head>
 <body>
     <div id="header">
-        <span class="logo">Instagram</span>
+      <span class="logo">Instagram</span>
+      {% if request.user.is_authenticated %}
+      <ul class="menu">
+          <li {% if section == 'images' %} class='selected' {% endif %} >
+                <form class="form-inline" action="{% url 'dashboard' %}" method="GET" accept-charset="utf-8">
+                        <input class="searchfield" id="searchbox" name="q" type="text" placeholder="Search">
+                        <button type="submit">enter</button>
+                      </form>
+          </li>
+          
+      </ul>
+      {% endif %}
+
+      <span class="user">
         {% if request.user.is_authenticated %}
-        <ul class="menu">
-        <li {% if section == "dashboard" %}class="selected"{% endif %}>
-        <a href="{% url "dashboard" %}">My dashboard</a>
-        </li>
-        <li {% if section == "images" %}class="selected"{% endif %}>
-        <a href="#">Images</a>
-        </li>
-        <li {% if section == "people" %}class="selected"{% endif %}>
-        <a href="#">People</a>
-        </li>
-        </ul>
-        {% endif %}
-        <span class="user">
-        {% if request.user.is_authenticated %}
-        Hello {{ request.user.first_name }},
-        <a href="{% url "logout" %}">Logout</a>
+          <a href="{% url 'add_photo' %}">Post</a>
+            <a href="{% url 'logout' %}">Logout</a>
+            <a href="{% url 'profile' %}">profile</a>
         {% else %}
-        <a href="{% url "login" %}">Log-in</a>
+        <a href="{% url 'login' %}">Log-in</a>
+        
         {% endif %}
-        </span>
-        </div>
-<div id="content">
-{% block content %}
-{% endblock %}
-</div>
+      </span>
+    </div>
+
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+        <li class="{{ message.tags }}">
+            {{ message|safe }}
+            <a href="#" class="close">✖</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <div id="content" class="container">
+        {% block content %}
+        {% endblock %}
+    </div>
+    
+    <script src="{% static 'js/jquery-3.2.0.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/popper.js' %}"></script>
+    <script src="{% static 'js/scripts.js' %}"></script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

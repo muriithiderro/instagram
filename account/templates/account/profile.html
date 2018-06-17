@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}profile{% endblock %}
+{% block content %}
+<h1>your profile</h1>
+<img src="{{ user.profile.photo.url }}">
+<p>{{user.username}}</p>
+<p>{{user.first_name}}</p>
+<p>{{user.email}}</p>
+
+<a href="{% url 'edit' %}">edit</a>
+<p >here are all your posts</p>
+{% for image in user.images_created.all %}
+   <img src="{{image.image.url}}" alt="change this">
+{% endfor %}
+{% endblock %}
+
